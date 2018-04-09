@@ -1,9 +1,11 @@
 # seeder
-A Raspberry Pi DAT seeder (early-development stage). It's just a seeder, without HTTP mirroring or anything special. My future plans are to make this 100% renewable-energy powered.
+A Raspberry Pi DAT seeder (early-development stage). 
 
-I spent around 5 minutes with the design, but will spend more time with it.
+It's just a seeder, without HTTP mirroring or anything special. My future plans are to make this 100% renewable-energy powered.
 
 ## installation
+You need ```node``` and ```npm``` to be accessible from ```$ sudo``` to do this.
+
 Clone the repo into ```/home/pi/seeder``` and run ```sudo ./install.sh```. I didn't test it on other devices so let me know if something's not working.
 
 ## usage
