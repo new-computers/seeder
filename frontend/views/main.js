@@ -6,8 +6,6 @@ const url = new Input('dat://')
 module.exports = view
 
 function view (state, emit) {
-	emit('feeds:fetch')
-
 	return html`
 		<body class="db 1 p2 fl">
 			<div class="2/3 m-1 db mxa">
