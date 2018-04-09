@@ -1,0 +1,181 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+::-moz-selection { color: #fff; background: #000; }
+::selection { color: #fff; background: #000; }
+
+html { font-size: 13px }
+
+body, pre {
+   font-family: monospace;
+   line-height: 1.6;
+   font-size: 1rem;
+   font-feature-settings:"onum" 1, "pnum" 1, "kern" 1, "ss01" 1;
+   font-kerning: normal;
+   letter-spacing: 0.5px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:not(.nbb) {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.2em;
+}
+
+/* Typography */
+
+
+h1, .f1 { font-size: 3rem; }
+h2, .f2 { font-size: 2.25rem; }
+h3, .f3 { font-size: 1.5rem; }
+h4, .f4 { font-size: 1.25rem; }
+
+.i { font-style: italic; }
+.b { font-weight: bold; }
+.underline {text-decoration: underline; }
+.strike { text-decoration: line-through; }
+.ttc { text-transform: capitalize; }
+.ttu { text-transform: uppercase; }
+.tac { text-align: center }
+
+.ffss { font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial, sans-serif; }
+.ffh { font-family: 'helvetica neue', helvetica, sans-serif; }
+.ffmono { font-family: monospace }
+
+.fwb { font-weight: bold; }
+.fwn { font-weight: normal; }
+
+.tcgrey, .tcgrey a { color: #999 }
+.tcwhite, .tcwhite a { color: #fff }
+.tcblack, .tcblack a { color: #000 }
+.tcred, .tcred a { color: #ff0000; }
+
+.lh1 { line-height: 1.2 }
+
+p {
+	margin: 2rem 0;
+}
+
+p blockquote {
+    border-left: 1px solid #999;
+    padding-left: 30px;
+    font-size: 1.25rem;
+    color: #999;
+}
+
+code {
+    background-color: #eee;
+    padding: 2px;
+}
+
+/* Blocks */
+
+.db { display: block; }
+.dib { display: inline-block; }
+.dn { display: none; }
+
+.pst { position: sticky; position: -webkit-sticky; }
+.pa { position: absolute; }
+.pr { position: relative; }
+.pf { position: fixed};
+.t0 { top: 0; }
+.l0 { left: 0; }
+
+.fl { float: left; }
+.fr { float: right; }
+.fn { float: none; }
+
+/* https://github.com/CreoOne/x001F */
+.\31{width:100.000%}
+.\31 \2f 2{width:50.000%}
+.\31 \2f 3{width:33.333%}
+.\31 \2f 4{width:25.000%}
+.\31 \2f 5{width:20.000%}
+.\31 \2f 6{width:16.667%}
+.\32 \2f 3{width:66.667%}
+.\32 \2f 5{width:40.000%}
+.\33 \2f 4{width:75.000%}
+.\33 \2f 5{width:60.000%}
+.\34 \2f 5{width:80.000%}
+.\35 \2f 6{width:83.333%}
+.auto { width: auto; }
+
+.mw800 { max-width: 800px }
+.mw1000 { max-width: 1000px }
+.mw1200 { max-width: 1200px }
+
+.ba { border-style: solid; border-width: 1px; }
+.bt { border-top-style: solid; border-top-width: 1px; }
+.br { border-right-style: solid; border-right-width: 1px; }
+.bb { border-bottom-style: solid; border-bottom-width: 1px; }
+.bl { border-left-style: solid; border-left-width: 1px; }
+.bn { border-style: none; border-width: 0; }
+
+.p0-5 { padding: 0.75rem }
+.p1 { padding: 1.5rem }
+.p2 { padding: 3rem }
+.px1 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py1 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.pt1 { padding-top: 1.5rem }
+.pb1 { padding-bottom: 1.5rem }
+
+.m0 { margin: 0 }
+.my1 { margin: 1.5rem 0 }
+.mx1 { margin: 0 1.5rem }
+.mr1 { margin-right: 1.5rem }
+.mt1 { margin-top: 1.5rem }
+.mb1 { margin-bottom: 1.5rem }
+.my2 { margin: 3rem 0 }
+.mt2 { margin-top: 3rem }
+.mb2 { margin-bottom: 3rem }
+.mt3 { margin-top: 4rem }
+.mxa { margin-left: auto; margin-right: auto; }
+
+.mt50 { margin-top: 50% }
+.ml50 { margin-left: 50% }
+.trans-y50 { transform: translateY(-50%) }
+.trans-x50 { transform: translateX(-50%) }
+
+img {
+	width: 100%;
+}
+
+p > img {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input {
+	font-family: monospace;
+	outline: none;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	padding: 5px;
+}
+
+/* Media query customs */
+
+@media (max-width: 900px) {
+	.m-1 { width: 100% }
+
+    .p0-5 { padding: 0.5rem }
+    .p1 { padding: 1rem }
+    .p2 { padding: 1.5rem }
+    .pt1 { padding-top: 1rem }
+    .px1 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .m0 { margin: 0 }
+    .my2 { margin: 1.5rem 0 }
+    .mt2 { margin-top: 1.5rem }
+    .mt3 { margin-top: 2rem }
+
+    p > img {
+        width: 100%;
+    }
+}

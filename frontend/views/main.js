@@ -9,21 +9,21 @@ function view (state, emit) {
 	emit('feeds:fetch')
 
 	return html`
-		<body>
-			<div>
-				${state.feeds.map(feed)}
-			</div>
-			<div>
+		<body class="db 1 p2 fl">
+			<div class="2/3 m-1 db mxa">
 				${url.render()}
-				<button onclick="${submit}">Add</button>
+				<a href="#" onclick="${submit}" class="my1">Add</a>
+			</div>
+			<div class="2/3 m-1 db mxa">
+				${state.feeds.map(feed)}
 			</div>
 		</body>
 	`
 
 	function feed(state) {
 		return html`
-			<div>
-				${state} [<a href="#" onclick="${click}">remove</a>]
+			<div class="1 p0-5 tac">
+				<a href="${state}" target="_blank">${state}</a> [<a href="#" onclick="${click}">remove</a>]
 			</div>		
 		`
 
