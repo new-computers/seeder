@@ -23,9 +23,15 @@ function view (state, emit) {
 	function feed(state) {
 		return html`
 			<div>
-				${state}
+				${state} [<a href="#" onclick="${click}">remove</a>]
 			</div>		
 		`
+
+		function click(e) {
+			e.preventDefault()
+
+			emit('feeds:remove', state)
+		}
 
 	}
 	

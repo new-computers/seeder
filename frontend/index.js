@@ -30,6 +30,22 @@ app.use((state, emitter) => {
 			emitter.emit('render')
 		})
 	})
+
+	emitter.on('feeds:remove', (url) => {
+		
+		window.fetch('/remove-feed', {
+			body: JSON.stringify({url: url}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+		.then(res => res.json())
+		.then((data) => {
+			state.feeds.splice(state.feeds.indexOf(url), 1)
+			emitter.emit('render')
+		})
+	})
 })
 
 app.route('/', require('./views/main'))

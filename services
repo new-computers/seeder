@@ -1,1 +1,2 @@
 hypercored --cwd /home/pi/seeder
+node /home/pi/seeder/server.js
