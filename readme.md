@@ -1,5 +1,5 @@
 # seeder
-A Raspberry Pi DAT seeder (early-development stage). 
+A Raspberry Pi DAT seeder (early-development stage).
 
 It's just a seeder, without HTTP mirroring or anything special. My future plans are to make this 100% renewable-energy powered.
 
@@ -14,3 +14,16 @@ The installation script should add two services to systemd: [hypercored](https:/
 Navigate to the Pi's address (in my case it's ```seeder.local```) and manage your sources.
 
 After you remove a source it'll still seed it until you restart the Pi or the service.
+
+## development
+
+Don't run the ```install.sh``` script on your development machine!
+
+Clone the repo, then:
+```
+npm install
+npm run build
+npm start dev
+```
+
+This will not start ```hypercored``` just the frontend server.
