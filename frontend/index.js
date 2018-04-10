@@ -4,6 +4,7 @@ const app = choo()
 
 app.use((state, emitter) => {
 	state.feeds = []
+	fetch()
 
 	emitter.on('feeds:fetch', () => {
 		window.fetch('/feeds')
@@ -46,6 +47,16 @@ app.use((state, emitter) => {
 			emitter.emit('render')
 		})
 	})
+
+	function fetch() {
+		window.fetch('/feeds')
+		.then((res) => res.json()) 
+		.then((data) => {
+			state.feeds = data.feeds
+			emitter.emit('render')
+		})
+		
+	}
 })
 
 app.route('/', require('./views/main'))

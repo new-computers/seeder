@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/feeds', function (req, res) {
-	var feeds = fs.readFileSync('/home/pi/seeder/feeds', 'utf8')
+	var feeds = read()
 
 	feeds = feeds.split('\n').filter((f) => f.length > 0)
 
@@ -19,7 +19,7 @@ app.get('/feeds', function (req, res) {
 
 
 app.post('/feeds', function (req, res) {
-	var feeds = fs.readFileSync('/home/pi/seeder/feeds', 'utf8')
+	var feeds = read()
 
 	feeds += req.body.url + '\n'
 	
@@ -30,7 +30,7 @@ app.post('/feeds', function (req, res) {
 })
 
 app.post('/remove-feed', function (req, res) {
-	var feeds = fs.readFileSync('/home/pi/seeder/feeds', 'utf8')
+	var feeds = read()
 
 	feeds = feeds.split('\n').filter(f => f.length > 0)
 	feeds.splice(feeds.indexOf(req.body.url), 1)
@@ -40,13 +40,21 @@ app.post('/remove-feed', function (req, res) {
 		r += feeds[i] + '\n'
 	}
 
-	console.log(r)
-	
 	fs.writeFileSync('/home/pi/seeder/feeds', r)
 
 	res.setHeader('Content-Type', 'application/json')
 	res.send(JSON.stringify({success: true}))
 })
+
+function read() {
+	var feeds = ''
+
+	try {
+		feeds = fs.readFileSync('/home/pi/seeder/feeds', 'utf8')
+	} catch (e) {}
+
+	return feeds
+}
 
 console.log('Server listening...')
 app.listen(80)
