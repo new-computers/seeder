@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/kodedninja/seeder#readme",
   "dependencies": {
+    "dat-node": "^3.5.8",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
