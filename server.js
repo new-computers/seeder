@@ -1,8 +1,11 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const koa = require('koa')
+const serve = require('koa-static')
+const bodyParser = require('koa-bodyparser')
+const Router = require('koa-router')
+
 const fs = require('fs')
 
-const app = express()
+const app = new koa()
 
 var port = 80
 var root = '/home/pi/seeder'
@@ -12,36 +15,36 @@ if (process.argv.length > 2 && process.argv[2] == 'dev') {
 	root = '.'
 }
 
-app.use(express.static(root + '/bundles'))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(serve(root + '/bundles'))
+app.use(bodyParser())
 
-app.get('/feeds', function (req, res) {
+const router = new Router()
+
+router.get('/feeds', async (ctx, next) => {
 	var feeds = read()
 
 	feeds = feeds.split('\n').filter((f) => f.length > 0)
 
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({feeds: feeds}))
+	ctx.response.set('Content-Type', 'application/json')
+	ctx.body = {feeds: feeds}
 })
 
-
-app.post('/feeds', function (req, res) {
+router.post('/feeds', async (ctx, next) => {
 	var feeds = read()
 
-	feeds += req.body.url + '\n'
+	feeds += ctx.request.body.url + '\n'
 
 	fs.writeFileSync(root + '/feeds', feeds)
 
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({success: true}))
+	ctx.response.set('Content-Type', 'application/json')
+	ctx.body = {success: true}
 })
 
-app.post('/remove-feed', function (req, res) {
+router.post('/remove-feed', async (ctx, next) => {
 	var feeds = read()
 
 	feeds = feeds.split('\n').filter(f => f.length > 0)
-	feeds.splice(feeds.indexOf(req.body.url), 1)
+	feeds.splice(feeds.indexOf(ctx.request.body.url), 1)
 
 	var r = ''
 	for (var i = 0; i < feeds.length; i++) {
@@ -50,9 +53,12 @@ app.post('/remove-feed', function (req, res) {
 
 	fs.writeFileSync(root + '/feeds', r)
 
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({success: true}))
+	ctx.response.set('Content-Type', 'application/json')
+	ctx.body = {success: true}
 })
+
+app.use(router.routes())
+	.use(router.allowedMethods())
 
 function read() {
 	var feeds = ''
