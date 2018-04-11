@@ -1,7 +1,6 @@
 const koa = require('koa')
 const serve = require('koa-static')
 const bodyParser = require('koa-bodyparser')
-const Dat = require('dat-node')
 
 const Store = require('./lib/store')
 const router = require('./lib/router')
@@ -22,7 +21,7 @@ const archiver = new Archiver(root, store)
 const r = router(store, archiver)
 
 store.read()
-archiver.update()
+archiver.all()
 
 app.use(serve(root + '/bundles'))
 app.use(bodyParser())
