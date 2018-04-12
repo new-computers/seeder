@@ -2,5 +2,8 @@ node_modules
 archiver
 pids
 bundles/bundle.js
-feeds
-
+data.json
+archives
+package-lock.json
+.gitignore
+package-lock.json
