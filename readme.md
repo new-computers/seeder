@@ -1,6 +1,8 @@
 # seeder
 A Raspberry Pi DAT seeder (early-development stage).
 
+![seeder ui](image.png)
+
 It's just a seeder, without HTTP mirroring or anything special, yet.
 
 ## installation
