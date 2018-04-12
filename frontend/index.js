@@ -2,62 +2,7 @@ const choo = require('choo')
 
 const app = choo()
 
-app.use((state, emitter) => {
-	state.feeds = []
-	fetch()
-
-	emitter.on('feeds:fetch', () => {
-		window.fetch('/feeds')
-		.then((res) => res.json()) 
-		.then((data) => {
-			state.feeds = data.feeds
-			emitter.emit('render')
-		})
-	})
-
-	emitter.on('feeds:add', (url) => {
-		if (state.feeds.indexOf(url) != -1) return
-
-		window.fetch('/feeds', {
-			body: JSON.stringify({url: url}),
-			headers: {
-				'content-type': 'application/json'
-			},
-			method: 'POST'
-		})
-		.then(res => res.json())
-		.then((data) => {
-			state.feeds.push(url)
-			emitter.emit('render')
-		})
-	})
-
-	emitter.on('feeds:remove', (url) => {
-		
-		window.fetch('/remove-feed', {
-			body: JSON.stringify({url: url}),
-			headers: {
-				'content-type': 'application/json'
-			},
-			method: 'POST'
-		})
-		.then(res => res.json())
-		.then((data) => {
-			state.feeds.splice(state.feeds.indexOf(url), 1)
-			emitter.emit('render')
-		})
-	})
-
-	function fetch() {
-		window.fetch('/feeds')
-		.then((res) => res.json()) 
-		.then((data) => {
-			state.feeds = data.feeds
-			emitter.emit('render')
-		})
-		
-	}
-})
+app.use(require('./plugins/seeder'))
 
 app.route('/', require('./views/main'))
 

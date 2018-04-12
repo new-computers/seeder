@@ -1,8 +1,12 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const fs = require('fs')
+const koa = require('koa')
+const serve = require('koa-static')
+const bodyParser = require('koa-bodyparser')
 
-const app = express()
+const Store = require('./lib/store')
+const router = require('./lib/router')
+const Archiver = require('./lib/archiver')
+
+const app = new koa()
 
 var port = 80
 var root = '/home/pi/seeder'
@@ -12,57 +16,17 @@ if (process.argv.length > 2 && process.argv[2] == 'dev') {
 	root = '.'
 }
 
-app.use(express.static(root + '/bundles'))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+const store = new Store(root + '/data.json')
+const archiver = new Archiver(root, store)
+const r = router(store, archiver)
 
-app.get('/feeds', function (req, res) {
-	var feeds = read()
+store.read()
+archiver.all()
 
-	feeds = feeds.split('\n').filter((f) => f.length > 0)
-
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({feeds: feeds}))
-})
-
-
-app.post('/feeds', function (req, res) {
-	var feeds = read()
-
-	feeds += req.body.url + '\n'
-
-	fs.writeFileSync(root + '/feeds', feeds)
-
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({success: true}))
-})
-
-app.post('/remove-feed', function (req, res) {
-	var feeds = read()
-
-	feeds = feeds.split('\n').filter(f => f.length > 0)
-	feeds.splice(feeds.indexOf(req.body.url), 1)
-
-	var r = ''
-	for (var i = 0; i < feeds.length; i++) {
-		r += feeds[i] + '\n'
-	}
-
-	fs.writeFileSync(root + '/feeds', r)
-
-	res.setHeader('Content-Type', 'application/json')
-	res.send(JSON.stringify({success: true}))
-})
-
-function read() {
-	var feeds = ''
-
-	try {
-		feeds = fs.readFileSync(root + '/feeds', 'utf8')
-	} catch (e) {}
-
-	return feeds
-}
+app.use(serve(root + '/bundles'))
+app.use(bodyParser())
+app.use(r.routes())
+	.use(r.allowedMethods())
 
 console.log('Server listening on port ' + port + '...')
 app.listen(port)
