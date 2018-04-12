@@ -10,6 +10,8 @@ body{
   justify-content: space-between;
   max-width: 1280px;
   margin: auto;
+  padding: 0;
+  margin: 0;
 }
 
 header{
