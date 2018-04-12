@@ -4,20 +4,23 @@ var css = require('sheetify')
 const Input = require('../components/input')
 const url = new Input('dat://')
 
-var prefix = css('../styles/style.css')
+css('../styles/reset.css')
+css('../styles/style.css')
 module.exports = view
 
 function view (state, emit) {
 	var known_url = window.location.origin.replace('http://', '') // location.hostname doesn't include the port
 	return html`
-		<body class=${prefix}>
+		<body>
 			<header>
 				<p>you are known as <a href="http://${known_url}">${known_url}</a></p>
-				<p>set up http access</p>
+				<div class="configure">
+					<a href="https://github.com/new-computers/seeder">github ↗</a>
+				</div>
 			</header>
 			<main>
 				<div class="add">
-					<p>when this pi is connected to a network it will help peer this site</p>
+					<p>${description(state)}</p>
 					${addLink(state)}
 				</div>
 				<div class="">${addUrl(state)}</div>
@@ -47,7 +50,6 @@ function view (state, emit) {
 
 		function cancel (e) {
 			e.preventDefault()
-			console.log('cancel')
 			emit('feeds:cancel', state)
 		}
 	}
@@ -55,13 +57,13 @@ function view (state, emit) {
 	function addUrl(state) {
 		if (state.open) {
 			return html`
-				<div class="input">
+				<div class="input border">
 					${url.render()}
 				</div>
 			`
 		} else {
 			return html`
-				<div class="entry input">
+				<div class="entry input border">
 					${url.render()}
 					<p>some placeholder text</p>
 				</div>
@@ -69,17 +71,49 @@ function view (state, emit) {
 		}
 	}
 
+	// this is dumb
+	function description(state) {
+		if (state.feeds.length < 1) {
+			return `add a dat url to start peering it →`
+		} else if (state.feeds.length == 1 && sum(state.stats) > 1) {
+			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peers :)`
+		} else if (state.feeds.length == 1 && sum(state.stats) == 1) {
+			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peer :)`
+		} else if (state.feeds.length == 1 && sum(state.stats) < 1) {
+			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peers :)`
+		} else if (state.feeds.length > 1 && sum(state.stats) > 1) {
+			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peers :)`
+		} else if (state.feeds.length > 1 && sum(state.stats) == 1) {
+			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peer :)`
+		} else if (state.feeds.length > 1 && sum(state.stats) < 1) {
+			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peers :)`
+		} else {
+			return `something is wrong :()`
+		}
+
+		function sum( obj ) {
+		  var sum = 0;
+		  for( var el in obj ) {
+		    if( obj.hasOwnProperty( el ) ) {
+					if (obj[el].peers) {
+			      sum += parseFloat( obj[el].peers );
+					}
+		    }
+		  }
+		  return sum;
+		}
+
+	}
+
 	function feed(url) {
 		return html`
-			<div class="pin">
+			<div class="pin border">
 				<div class="seed">
-					<p class='url'>
-						<a href="${url}" target="_blank">${url}</a>
-					</p>
+					<div class=${state.stats[url] ? 'dot green' : 'dot yellow'}></div>
+					<a class='url' href="${url}" target="_blank">${url}</a>
 				</div>
 				<div class="info">
 					<div>${state.stats[url] ? state.stats[url].peers : ''}</div>
-					<div class="dot"></div>
 					<a class='remove' href="#" onclick="${click}"></a>
 				</div>
 			</div>
@@ -87,7 +121,6 @@ function view (state, emit) {
 
 		function click(e) {
 			e.preventDefault()
-
 			emit('feeds:remove', url)
 		}
 

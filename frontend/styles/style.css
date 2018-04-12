@@ -1,29 +1,57 @@
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400');
+/* @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400');
+
+@import url('https://fonts.googleapis.com/css?family=Space+Mono'); */
+
+@import url('https://rsms.me/inter/inter-ui.css');
 
 body{
   font-size: 24px;
-  font-family: 'IBM Plex Sans', sans-serif;
+  /* font-family: 'IBM Plex Sans', sans-serif; */
+  font-family: 'Inter UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-weight: 300;
-  /* background-color: #FFFAF5; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 1280px;
-  margin: auto;
-  padding: 0;
-  margin: 0;
+  align-items: center;
+  margin: 0px;
+  padding: 2rem;
 }
 
 header{
-  padding: 2rem;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
 main{
-  padding: 2rem;
   width: 100%;
+}
+
+a{
+  color: blue;
+  text-decoration: none;
+  border: none !important;
+  word-wrap: break-word;
+  padding: 0px !important;
+  margin: 0px;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+p{
+  margin: 0px;
+  padding: 0px;
+}
+
+.border{
+  border: 1px solid rgba(0,0,0,.2);
+}
+
+.border:hover {
+  border: 1px solid rgba(0,0,0,.4);
 }
 
 .add{
@@ -32,46 +60,8 @@ main{
   margin-bottom: 2rem;
 }
 
-a{
-  color: #2F80ED;
-  text-decoration: none;
-  border: none !important;
-  word-wrap: break-word;
-  padding: 0px !important;
-  margin: 0px;
-}
-
-p{
-  margin: 0px;
-  padding: 0px;
-}
-
 .entry {
   display: none;
-}
-
-.pin{
-  width: 100%;
-  border: 1px solid rgba(0,0,0,.2);
-  margin-bottom: 2rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  overflow: hidden;
-}
-
-.pin a{
-  /* overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; */
-}
-
-.url{
-  color: blue;
-  margin-left: .5rem;
-  width: 60%;
-  display: flex;
-  justify-content: flex-start;
 }
 
 .info {
@@ -85,19 +75,53 @@ p{
   padding-left: 2rem;
 }
 
-.dot{
-  width: 20px;
-  height: 20px;
-  /* background-color: #6FCF97; */
-  border-radius: 100px;
-  margin-left: 2rem;
-  border: 2px solid #6FCF97;
+.pin{
+  margin-top: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
 }
 
-.dot {
+
+.url{
+  /* color: blue; */
+  margin-top: -2px;
+}
+
+.seed{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.seed:hover:after{
+  content: '↗';
+  color: rgba(0,0,0,.5);
+  text-decoration: none;
+  margin-left: .5rem;
+  /* margin-top: 2px; */
+}
+
+.dot{
+  width: 12px;
+  height: 12px;
+  border-radius: 100px;
+  margin-right: 1rem;
+}
+
+.green{
+    background-color: #6FCF97;
+}
+
+.yellow{
+    background-color: #ffe949;
+}
+
+.d {
   width: 20px;
   height: 20px;
-  /* background-color: #6FCF97; */
   border-radius: 100px;
   margin-left: 2rem;
   border: 3px solid #6FCF97;
@@ -129,9 +153,9 @@ p{
 }
 
 .remove{
-  margin-left: 2rem;
-  color: #ccc;
-  margin-right: .5rem;
+  margin-left: 1rem;
+  color: rgba(0,0,0,.2);
+  margin-top: -2px;
 }
 
 .remove:after{
@@ -139,16 +163,10 @@ p{
 }
 
 .remove:hover:after{
-  content: 'remove';
-}
-
-.seed{
-    display: flex;
-    justify-content: flex-start;
+  color: rgba(0,0,0,1);
 }
 
 .input {
-  border: 1px solid rgba(0,0,0,.2);
   margin-bottom: 2rem;
   padding: 2rem;
 }
@@ -157,23 +175,35 @@ p{
   color: #ccc;
 }
 
-.save {
-  padding-left: 1rem;
+.cencel:hover{
+  text-decoration: underline;
+}
+
+.save{
+  margin-left: 1rem;
+}
+
+.save:hover{
+  text-decoration: underline;
 }
 
 
 input{
-  font-family:  'IBM Plex Sans', sans-serif;
   color: #000;
   font-size: 24px;
   font-weight: 300;
-  background-color: rgba(0,0,0,0);
   width: 100%;
   padding: 0px;
-  padding-bottom: 1rem;
+  padding-bottom: .5rem;
   opacity: .6;
-  /* padding: ; */
   outline: none;
   border: none;
   border-bottom: 1px solid #ccc;
 }
+
+/* .configure a:after{
+  content: '⬡';
+}
+.configure a:hover:after{
+  content: '⬢';
+} */

@@ -47,6 +47,7 @@ module.exports = (state, emitter) => {
 		.then(res => res.json())
 		.then((data) => {
 			state.feeds.splice(state.feeds.indexOf(url), 1)
+			delete state.stats[url]
 			emitter.emit('render')
 		})
 	})
