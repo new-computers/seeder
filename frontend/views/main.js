@@ -15,7 +15,7 @@ function view (state, emit) {
 			<header>
 				<p>you are known as <a href="http://${known_url}">${known_url}</a></p>
 				<div class="configure">
-					<a href="https://github.com/new-computers/seeder">github ↗</a>
+					<a href="https://github.com/new-computers/seeder">feedback ↗</a>
 				</div>
 			</header>
 			<main>
