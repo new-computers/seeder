@@ -8,10 +8,11 @@ var prefix = css('../styles/style.css')
 module.exports = view
 
 function view (state, emit) {
+	var known_url = window.location.origin.replace('http://', '') // location.hostname doesn't include the port
 	return html`
 		<body class=${prefix}>
 			<header>
-				<p>you are known as <a href="http://dat.local">dat.local</a></p>
+				<p>you are known as <a href="http://${known_url}">${known_url}</a></p>
 				<p>set up http access</p>
 			</header>
 			<main>
