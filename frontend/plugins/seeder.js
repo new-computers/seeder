@@ -78,7 +78,7 @@ module.exports = (state, emitter) => {
 
 			// recheck after 10 seconds
 			setTimeout(() => {
-				stats(url, t + 1)
+				stats(url)
 			}, 10000)
 		})
 	}

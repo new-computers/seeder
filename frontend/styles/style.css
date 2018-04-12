@@ -8,7 +8,6 @@ body{
   font-size: 24px;
   /* font-family: 'IBM Plex Sans', sans-serif; */
   font-family: 'Inter UI', sans-serif;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-weight: 300;
   display: flex;
   flex-direction: column;
@@ -57,7 +56,7 @@ p{
 .add{
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 .entry {
