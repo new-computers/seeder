@@ -17,7 +17,6 @@ app.use((state, emitter) => {
 	})
 
 	emitter.on('feeds:cancel', () => {
-		console.log('close!')
 		state.open = false
 		emitter.emit('render')
 	})
@@ -38,11 +37,9 @@ app.use((state, emitter) => {
 			})
 			.then(res => res.json())
 			.then((data) => {
-				console.log(url)
 				state.feeds.push(url)
 				emitter.emit('render')
 			})
-			console.log('closed')
 			state.open = false
 		}
 

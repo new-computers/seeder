@@ -20,12 +20,13 @@
   },
   "homepage": "https://github.com/kodedninja/seeder#readme",
   "dependencies": {
-    "sheetify": "^7.3.1",
     "dat-node": "^3.5.8",
+    "fs-extra": "^5.0.0",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
-    "koa-static": "^4.0.2"
+    "koa-static": "^4.0.2",
+    "sheetify": "^7.3.1"
   },
   "devDependencies": {
     "browserify": "^16.1.1",
