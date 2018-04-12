@@ -4,6 +4,4 @@ pids
 bundles/bundle.js
 data.json
 archives
-package-lock.json
 .gitignore
-package-lock.json
