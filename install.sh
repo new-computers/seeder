@@ -2,19 +2,19 @@
 
 # install node
 if [ -x "command -v node" ]; then
-	echo "0. Node.js is not installed. Installing..."
+	echo "0. Node.js is not installed. Installing with nvm..."
 
 	sudo apt-get update
 	sudo apt-get install build-essential libssl-dev
 
-	curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install_nvm.sh
-	./install_nvm.sh
+	sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+	source ~/.bashrc
 
 	# install latest node version
+	nvm install node
+	nvm use node
 
 	echo "Finished! :("
-
-	rm ./install_nvm.sh
 fi
 
 # download seeder
