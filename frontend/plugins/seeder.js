@@ -1,3 +1,5 @@
+const parse = require('parse-dat-url')
+
 module.exports = (state, emitter) => {
 	state.feeds = []
 	state.stats = {}
@@ -16,25 +18,30 @@ module.exports = (state, emitter) => {
 			state.open = true
 			emitter.emit('render')
 		} else {
-			url = url.trim()
-			if (url == '') return
+			try {
+				url = parse(url)
 
-			if (state.feeds.indexOf(url) != -1) return
+				if (url.protocol != 'dat:') return
 
-			window.fetch('/feeds', {
-				body: JSON.stringify({url: url}),
-				headers: {
-					'content-type': 'application/json'
-				},
-				method: 'POST'
-			})
-			.then(res => res.json())
-			.then((data) => {
-				state.feeds.push(url)
-				emitter.emit('render')
-				stats(url)
-			})
-			state.open = false
+				if (state.feeds.indexOf(url.href) != -1) return
+
+				window.fetch('/feeds', {
+					body: JSON.stringify({url: url.href}),
+					headers: {
+						'content-type': 'application/json'
+					},
+					method: 'POST'
+				})
+				.then(res => res.json())
+				.then((data) => {
+					state.feeds.push(url.href)
+					emitter.emit('render')
+					stats(url.href)
+				})
+				state.open = false
+			} catch (e) {
+				console.error(e)
+			}
 		}
 
 	})

@@ -8,7 +8,7 @@
     "start": "node server.js",
     "watch": "watchify -t sheetify -o bundles/bundle.js frontend/index.js",
     "build": "browserify -t sheetify -o bundles/bundle.js frontend/index.js",
-	"update": "git pull origin master && npm run build && systemctl restart dat"
+    "update": "git pull origin master && npm run build && systemctl restart dat"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
+    "parse-dat-url": "^3.0.1",
     "sheetify": "^7.3.1"
   },
   "devDependencies": {
