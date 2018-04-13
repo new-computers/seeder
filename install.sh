@@ -69,4 +69,4 @@ echo "Finished! :D"
 
 echo ""
 echo "seeder was successfully installed to your Pi."
-echo "Open the frontend in a web-browser, by going to its IP address or to http://<device-name>.local"
+echo "Open the frontend in a web-browser, by going to its IP address or to http://$(hostname -s).local/"
