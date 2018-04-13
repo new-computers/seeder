@@ -7,7 +7,8 @@ It's just a seeder, without HTTP mirroring or anything special, yet.
 
 ## installation
 ```
-$ curl -o- https://git.io/vxpck | bash```
+$ curl -o- https://git.io/vxpck | bash
+```
 It'll install everything you need.
 
 ## usage
