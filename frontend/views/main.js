@@ -1,5 +1,6 @@
 const html = require('nanohtml')
 var css = require('sheetify')
+const nanoevent = require('../utils/nanoevent')
 
 const Input = require('../components/input')
 const url = new Input('dat://')
@@ -42,12 +43,6 @@ function view (state, emit) {
 			`
 		}
 
-		function submit (e) {
-			e.preventDefault()
-			emit('feeds:add', url.element.value)
-			url.element.value = ''
-		}
-
 		function cancel (e) {
 			e.preventDefault()
 			emit('feeds:cancel', state)
@@ -58,17 +53,29 @@ function view (state, emit) {
 		if (state.open) {
 			return html`
 				<div class="input border">
-					${url.render()}
+					${nanoevent(url.render(), 'keydown', keydown)}
 				</div>
 			`
 		} else {
 			return html`
 				<div class="entry input border">
-					${url.render()}
+					${nanoevent(url.render(), 'keydown', keydown)}
 					<p>some placeholder text</p>
 				</div>
 			`
 		}
+
+		function keydown(e) {
+			if (e.keyCode == 13 || e.which == 13) {
+				submit(e)
+			}
+		}
+	}
+
+	function submit (e) {
+		e.preventDefault()
+		emit('feeds:add', url.element.value)
+		url.element.value = ''
 	}
 
 	function description(state) {

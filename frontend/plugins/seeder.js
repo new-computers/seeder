@@ -16,6 +16,9 @@ module.exports = (state, emitter) => {
 			state.open = true
 			emitter.emit('render')
 		} else {
+			url = url.trim()
+			if (url == '') return
+
 			if (state.feeds.indexOf(url) != -1) return
 
 			window.fetch('/feeds', {
