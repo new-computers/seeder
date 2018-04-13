@@ -71,36 +71,28 @@ function view (state, emit) {
 		}
 	}
 
-	// this is dumb
 	function description(state) {
 		if (state.feeds.length < 1) {
 			return `add a dat url to start peering it →`
-		} else if (state.feeds.length == 1 && sum(state.stats) > 1) {
-			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peers :)`
-		} else if (state.feeds.length == 1 && sum(state.stats) == 1) {
-			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peer :)`
-		} else if (state.feeds.length == 1 && sum(state.stats) < 1) {
-			return `you are seeding ${state.feeds.length} site to ${sum(state.stats)} peers :)`
-		} else if (state.feeds.length > 1 && sum(state.stats) > 1) {
-			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peers :)`
-		} else if (state.feeds.length > 1 && sum(state.stats) == 1) {
-			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peer :)`
-		} else if (state.feeds.length > 1 && sum(state.stats) < 1) {
-			return `you are seeding ${state.feeds.length} sites to ${sum(state.stats)} peers :)`
 		} else {
-			return `something is wrong :()`
+			var s = sum(state.stats)
+			return `you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)`
+		}
+
+		function plural(word, value) {
+			return word + (value == 1 ? '' : 's')
 		}
 
 		function sum( obj ) {
-		  var sum = 0;
-		  for( var el in obj ) {
-		    if( obj.hasOwnProperty( el ) ) {
+			var sum = 0
+			for( var el in obj ) {
+				if( obj.hasOwnProperty( el ) ) {
 					if (obj[el].peers) {
-			      sum += parseFloat( obj[el].peers );
+	      				sum += parseFloat( obj[el].peers )
 					}
-		    }
-		  }
-		  return sum;
+		  		}
+			}
+			return sum
 		}
 
 	}
