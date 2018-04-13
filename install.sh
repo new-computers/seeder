@@ -1,20 +1,36 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+s_has() {
+	type "${1-}" > /dev/null 2>&1
+}
 
 # install node
-if [ -x "command -v node" ]; then
-	echo "0. Node.js is not installed. Installing with nvm..."
+if s_has "node" ; then
+	echo "node installed"
+else
+	echo "0. node is not installed. Installing..."
 
-	sudo apt-get update
-	sudo apt-get install build-essential libssl-dev
+	# install nvm
+	if s_has "nvm" ; then
+		echo "nvm installed."
+	else
+		echo "0.a. Installing nvm..."
+		curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+		source ~/.bashrc
 
-	sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-	source ~/.bashrc
+		echo "nvm installed!"
+	fi
 
 	# install latest node version
 	nvm install node
 	nvm use node
 
-	echo "Finished! :("
+	n=$(which node); \
+	n=${n%/bin/node}; \
+	chmod -R 755 $n/bin/*; \
+	sudo cp -r $n/{bin,lib,share} /usr/local
+
+	echo "Finished! :|"
 fi
 
 # download seeder
@@ -30,14 +46,14 @@ echo "Finished! :|"
 echo "2. Installing dependencies..."
 
 sudo npm i -g add-to-systemd lil-pids
-npm install
+sudo npm install
 
 echo "Finished! :)"
 
 # build
 echo "3. Building..."
 
-npm run build
+sudo npm run build
 
 echo "Finished! :>"
 
@@ -51,5 +67,6 @@ echo "Finished! :D"
 # test
 # TODO
 
+echo ""
 echo "seeder was successfully installed to your Pi."
 echo "Open the frontend in a web-browser, by going to its IP address or to http://<device-name>.local"
