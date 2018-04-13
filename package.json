@@ -4,7 +4,7 @@
   "description": "A Dat seeder service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "xo",
     "start": "node server.js",
     "watch": "watchify -t sheetify -o bundles/bundle.js frontend/index.js",
     "build": "browserify -t sheetify -o bundles/bundle.js frontend/index.js",
@@ -12,14 +12,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kodedninja/seeder.git"
+    "url": "git+https://github.com/new-computers/seeder.git"
   },
   "author": "kodedninja",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kodedninja/seeder/issues"
+    "url": "https://github.com/new-computers/seeder/issues"
   },
-  "homepage": "https://github.com/kodedninja/seeder#readme",
+  "homepage": "https://github.com/new-computers/seeder#readme",
+  "xo": {
+	"semicolon": false,
+	"no-var": false,
+	"rules": {
+		"no-var": 0,
+		"no-undef": 0,
+		"camelcase": 0,
+		"capitalized-comment": 0,
+		"new-cap": 0,
+		"no-negated-condition": 0
+	}
+  },
   "dependencies": {
     "dat-node": "^3.5.8",
     "fs-extra": "^5.0.0",

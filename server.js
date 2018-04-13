@@ -11,7 +11,7 @@ const app = new koa()
 var port = 80
 var root = '/home/pi/seeder'
 
-if (process.argv.length > 2 && process.argv[2] == 'dev') {
+if (process.argv.length > 2 && process.argv[2] === 'dev') {
 	port = 8080
 	root = '.'
 }

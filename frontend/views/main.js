@@ -3,14 +3,15 @@ var css = require('sheetify')
 const nanoevent = require('../utils/nanoevent')
 
 const Input = require('../components/input')
+
 const url = new Input('dat://')
 
 css('../styles/reset.css')
 css('../styles/style.css')
 module.exports = view
 
-function view (state, emit) {
-	var known_url = window.location.origin.replace('http://', '') // location.hostname doesn't include the port
+function view(state, emit) {
+	var known_url = window.location.origin.replace('http://', '') // Location.hostname doesn't include the port
 	return html`
 		<body>
 			<header>
@@ -32,18 +33,17 @@ function view (state, emit) {
 		</body>
 	`
 	function addLink(state) {
-		if (!state.open){
+		if (!state.open) {
 			return html`
 				<p><a href="#" onclick="${submit}" class="">+ add a dat</a></p>
 			`
-		} else {
-			return html`
+		}
+		return html`
 				<p><a href="#" onclick="${cancel}" class="cancel">cancel</a>
 				<a href="#" onclick="${submit}" class="save">save</a></p>
 			`
-		}
 
-		function cancel (e) {
+		function cancel(e) {
 			e.preventDefault()
 			emit('feeds:cancel', state)
 		}
@@ -56,52 +56,49 @@ function view (state, emit) {
 					${nanoevent(url.render(), 'keydown', keydown)}
 				</div>
 			`
-		} else {
-			return html`
+		}
+		return html`
 				<div class="entry input border">
 					${nanoevent(url.render(), 'keydown', keydown)}
 					<p>some placeholder text</p>
 				</div>
 			`
-		}
 
 		function keydown(e) {
-			if (e.keyCode == 13 || e.which == 13) {
+			if (e.keyCode === 13 || e.which === 13) {
 				submit(e)
 			}
 		}
 	}
 
-	function submit (e) {
+	function submit(e) {
 		e.preventDefault()
 		emit('feeds:add', url.element.value)
 		url.element.value = ''
 	}
 
 	function description(state) {
-		if (state.feeds.length < 1) {
+		if (state.feeds.length === 0) {
 			return `add a dat url to start peering it →`
-		} else {
-			var s = sum(state.stats)
-			return `you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)`
 		}
+		var s = sum(state.stats)
+		return `you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)`
 
 		function plural(word, value) {
-			return word + (value == 1 ? '' : 's')
+			return word + (value === 1 ? '' : 's')
 		}
 
-		function sum( obj ) {
+		function sum(obj) {
 			var sum = 0
-			for( var el in obj ) {
-				if( obj.hasOwnProperty( el ) ) {
+			for (var el in obj) {
+				if (obj.hasOwnProperty(el)) {
 					if (obj[el].peers) {
-	      				sum += parseFloat( obj[el].peers )
+						sum += parseFloat(obj[el].peers)
 					}
-		  		}
+				}
 			}
 			return sum
 		}
-
 	}
 
 	function feed(url) {
@@ -122,6 +119,5 @@ function view (state, emit) {
 			e.preventDefault()
 			emit('feeds:remove', url)
 		}
-
 	}
 }

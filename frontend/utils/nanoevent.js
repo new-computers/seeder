@@ -1,4 +1,4 @@
-// maybe this should be a module?
+// Maybe this should be a module?
 module.exports = function (el, e, handler) {
 	try {
 		el.removeEventListener(e, handler)
