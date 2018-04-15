@@ -101,15 +101,15 @@ function view(state, emit) {
 		}
 	}
 
-	function feed(url) {
+	function feed(fd) {
 		return html`
 			<div class="pin border">
 				<div class="seed">
-					<div class=${state.stats[url] ? 'dot green' : 'dot yellow'}></div>
-					<a class='url' href="${url}" target="_blank">${url}</a>
+					<div class=${state.stats[fd.url] ? 'dot green' : 'dot yellow'}></div>
+					<a class='url' href="${fd.url}" target="_blank">${fd.url}</a>
 				</div>
 				<div class="info">
-					<div>${state.stats[url] ? state.stats[url].peers : ''}</div>
+					<div>${state.stats[fd.url] ? state.stats[fd.url].peers : ''}</div>
 					<a class='remove' href="#" onclick="${click}"></a>
 				</div>
 			</div>
@@ -117,7 +117,7 @@ function view(state, emit) {
 
 		function click(e) {
 			e.preventDefault()
-			emit('feeds:remove', url)
+			emit('feeds:remove', fd.url)
 		}
 	}
 }

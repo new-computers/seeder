@@ -39,7 +39,7 @@ module.exports = (state, emitter) => {
 					.then(res => res.json())
 					.then(data => {
 						if (data.success) {
-							state.feeds.push(url.href)
+							state.feeds.push({url: url.href})
 							emitter.emit('render')
 							stats(url.href)
 						}
@@ -53,7 +53,7 @@ module.exports = (state, emitter) => {
 
 	emitter.on('feeds:remove', url => {
 		window.fetch('/remove-feed', {
-			body: JSON.stringify({url}),
+			body: JSON.stringify({url: url}),
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -62,7 +62,7 @@ module.exports = (state, emitter) => {
 			.then(res => res.json())
 			.then(data => {
 				if (data.success) {
-					state.feeds.splice(state.feeds.indexOf(url), 1)
+					state.feeds.splice(index(url), 1)
 					delete state.stats[url]
 					emitter.emit('render')
 				}
@@ -79,7 +79,7 @@ module.exports = (state, emitter) => {
 				emitter.emit('render')
 
 				state.feeds.forEach(f => {
-					stats(f)
+					stats(f.url)
 				})
 			})
 	}
@@ -98,5 +98,11 @@ module.exports = (state, emitter) => {
 					stats(url)
 				}, 10000)
 			})
+	}
+
+	function index(url) {
+		for (var i = 0; i < state.feeds.length; i++) {
+			if (state.feeds[i].url == url) return i
+		}
 	}
 }
