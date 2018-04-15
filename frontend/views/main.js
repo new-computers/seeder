@@ -110,6 +110,7 @@ function view(state, emit) {
 				</div>
 				<div class="info">
 					<div>${state.stats[fd.url] ? state.stats[fd.url].peers : ''}</div>
+					<a href="#" onclick="${pause}">PAUSE</a>
 					<a class='remove' href="#" onclick="${click}"></a>
 				</div>
 			</div>
@@ -118,6 +119,11 @@ function view(state, emit) {
 		function click(e) {
 			e.preventDefault()
 			emit('feeds:remove', fd.url)
+		}
+
+		function pause(e) {
+			e.preventDefault()
+			emit('feeds:pause', fd.url)
 		}
 	}
 }

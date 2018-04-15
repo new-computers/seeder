@@ -71,6 +71,23 @@ module.exports = (state, emitter) => {
 
 	emitter.on('feeds:stats', stats)
 
+	emitter.on('feeds:pause', url => {
+		window.fetch('/pause', {
+			body: JSON.stringify({url: url}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(res => res.json())
+			.then(data => {
+				if (data.success) {
+					console.log('paused ' + url)
+					emitter.emit('render')
+				}
+			})
+	})
+
 	function fetch() {
 		window.fetch('/feeds')
 			.then(res => res.json())

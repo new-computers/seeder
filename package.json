@@ -21,16 +21,16 @@
   },
   "homepage": "https://github.com/new-computers/seeder#readme",
   "xo": {
-	"semicolon": false,
-	"no-var": false,
-	"rules": {
-		"no-var": 0,
-		"no-undef": 0,
-		"camelcase": 0,
-		"capitalized-comment": 0,
-		"new-cap": 0,
-		"no-negated-condition": 0
-	}
+    "semicolon": false,
+    "no-var": false,
+    "rules": {
+      "no-var": 0,
+      "no-undef": 0,
+      "camelcase": 0,
+      "capitalized-comment": 0,
+      "new-cap": 0,
+      "no-negated-condition": 0
+    }
   },
   "dependencies": {
     "dat-node": "^3.5.8",
