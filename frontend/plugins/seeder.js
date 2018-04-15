@@ -82,7 +82,7 @@ module.exports = (state, emitter) => {
 			.then(res => res.json())
 			.then(data => {
 				if (data.success) {
-					console.log('paused ' + url)
+					state.feeds[index(url)].paused = !state.feeds[index(url)].paused
 					emitter.emit('render')
 				}
 			})

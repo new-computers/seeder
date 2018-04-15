@@ -110,7 +110,7 @@ function view(state, emit) {
 				</div>
 				<div class="info">
 					<div>${state.stats[fd.url] ? state.stats[fd.url].peers : ''}</div>
-					<a href="#" onclick="${pause}">PAUSE</a>
+					<a href="#" onclick="${pause}">${!fd.paused ? 'pause' : 'resume'}</a>
 					<a class='remove' href="#" onclick="${click}"></a>
 				</div>
 			</div>
