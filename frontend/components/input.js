@@ -9,7 +9,7 @@ module.exports = class Input extends Nanocomponent {
 
 	createElement() {
 		return html`
-			<input type="text" placeholder="${this.placeholder}" class="">
+			<input type="text" placeholder="${this.placeholder}" class="urlInput">
 		`
 	}
 

@@ -10,6 +10,7 @@ css('../styles/reset.css')
 css('../styles/style.css')
 module.exports = view
 
+
 function view(state, emit) {
 	var known_url = window.location.origin.replace('http://', '') // Location.hostname doesn't include the port
 	return html`
@@ -22,17 +23,19 @@ function view(state, emit) {
 			</header>
 			<main>
 				<div class="add">
-					<p>${description(state)}</p>
-					${addLink(state)}
+					${description(state)}
+					${addDatControl(state, emit)}
 				</div>
-				<div class="">${addUrl(state)}</div>
+				<div class="">
+					${urlInput(state, emit)}
+				</div>
 				<div class="">
 					${state.feeds.map(feed)}
 				</div>
 			</main>
 		</body>
 	`
-	function addLink(state) {
+	function addDatControl(state, emit) {
 		if (!state.open) {
 			return html`
 				<p><a href="#" onclick="${submit}" class="">+ add a dat</a></p>
@@ -49,11 +52,45 @@ function view(state, emit) {
 		}
 	}
 
-	function addUrl(state) {
+	function adjustSeeding(state, emit) {
+		return html`
+			<div class="slider">
+				<p>seed this site ${state.newUrl.val == 75 ? '' : 'for'} ${state.newUrl.text}</p>
+				<input type="range" oninput="${writeVal}" onchange="${writeVal}" min="0" max="75" step="25" value=${state.newUrl.val}>
+			</div>
+		`
+
+		function writeVal(e){
+			val = e.target.value
+			switch (val.toString()) {
+				case "75":
+					text = "forever"
+					break;
+				case "50":
+					text = "1 month"
+					break;
+				case "25":
+					text = "1 week"
+					break;
+				case "0":
+					text = "1 day"
+					break;
+				default:
+					text = "whyyy";
+			}
+
+			state.newUrl.val = val
+			state.newUrl.text = text
+			emit('feeds:adjustTime', state)
+		}
+	}
+
+	function urlInput(state, emit) {
 		if (state.open) {
 			return html`
 				<div class="input border">
 					${nanoevent(url.render(), 'keydown', keydown)}
+					${adjustSeeding(state, emit)}
 				</div>
 			`
 		}
@@ -65,9 +102,14 @@ function view(state, emit) {
 			`
 
 		function keydown(e) {
+			console.log('keys')
 			if (e.keyCode === 13 || e.which === 13) {
 				submit(e)
 			}
+		}
+
+		function focus(e) {
+			console.log('focus')
 		}
 	}
 
@@ -78,12 +120,14 @@ function view(state, emit) {
 	}
 
 	function description(state) {
+				var s = sum(state.stats)
 		if (state.feeds.length === 0) {
-			return `add a dat url to start peering it →`
-		}
-		var s = sum(state.stats)
-		return `you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)`
+			return html`<p>add a dat url to start peering it →</p>`
+		} else {
+			return html`<p>you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)</p>`
 
+		}
+		
 		function plural(word, value) {
 			return word + (value === 1 ? '' : 's')
 		}
@@ -105,13 +149,13 @@ function view(state, emit) {
 		return html`
 			<div class="pin border">
 				<div class="seed">
-					<div class=${state.stats[fd.url] ? 'dot green' : 'dot yellow'}></div>
+					<div class=${fd.paused ? 'dot yellow' : 'dot green'}></div>
 					<a class='url' href="${fd.url}" target="_blank">${fd.url}</a>
 				</div>
 				<div class="info">
+					<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>
+					<a class='remove' title="remove this dat" href="#" onclick="${click}"></a>
 					<div>${state.stats[fd.url] ? state.stats[fd.url].peers : ''}</div>
-					<a href="#" onclick="${pause}">${!fd.paused ? 'pause' : 'resume'}</a>
-					<a class='remove' href="#" onclick="${click}"></a>
 				</div>
 			</div>
 		`

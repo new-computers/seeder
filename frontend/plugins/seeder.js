@@ -3,7 +3,8 @@ const parse = require('parse-dat-url')
 module.exports = (state, emitter) => {
 	state.feeds = []
 	state.stats = {}
-	state.open = false
+	// state.open = true
+	state.newUrl = {val: 75, text: "forever"}
 	fetch()
 
 	emitter.on('feeds:fetch', fetch)
@@ -13,6 +14,12 @@ module.exports = (state, emitter) => {
 		emitter.emit('render')
 	})
 
+	emitter.on('feeds:adjustTime',  () => {
+		// state.open = true
+		// state.text = text
+		emitter.emit('render')
+	})
+	
 	emitter.on('feeds:add', url => {
 		if (!state.open) {
 			state.open = true
