@@ -156,7 +156,7 @@ function view(state, emit) {
 				<div class="info">
 					<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>
 					<a class='remove' title="remove this dat" href="#" onclick="${click}"></a>
-					<div>${state.stats[fd.url] ? state.stats[fd.url].peers : ''}</div>
+					<div>${(!fd.paused && state.stats[fd.url]) ? state.stats[fd.url].peers : '0'}</div>
 				</div>
 			</div>
 		`
