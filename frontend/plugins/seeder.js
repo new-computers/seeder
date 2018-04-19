@@ -24,6 +24,7 @@ module.exports = (state, emitter) => {
 	emitter.on('feeds:add', url => {
 		if (!state.open) {
 			state.open = true
+			state.opened = true // true only at the first render after open
 			emitter.emit('render')
 		} else {
 			try {

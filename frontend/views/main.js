@@ -87,6 +87,13 @@ function view(state, emit) {
 
 	function urlInput(state, emit) {
 		if (state.open) {
+			if (state.opened) {
+				setTimeout(function() { // had to trick this
+					url.element.focus()
+				}, 100)
+				state.opened = false
+			}
+
 			return html`
 				<div class="input border">
 					${nanoevent(url.render(), 'keydown', keydown)}
