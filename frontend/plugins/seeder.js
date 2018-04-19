@@ -132,7 +132,7 @@ module.exports = (state, emitter) => {
 		window.fetch('/stats/' + dirname)
 			.then(res => res.json())
 			.then(data => {
-				state.stats[url] = data.stats
+				state.stats[url] = data
 				emitter.emit('render')
 
 				// Recheck after 10 seconds

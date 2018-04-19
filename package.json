@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "dat-node": "^3.5.8",
+    "du": "^0.1.0",
     "fs-extra": "^5.0.0",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
