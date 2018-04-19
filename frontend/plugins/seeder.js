@@ -1,4 +1,5 @@
 const parse = require('parse-dat-url')
+const moment = require('moment')
 
 module.exports = (state, emitter) => {
 	state.feeds = []
@@ -19,7 +20,7 @@ module.exports = (state, emitter) => {
 		// state.text = text
 		emitter.emit('render')
 	})
-	
+
 	emitter.on('feeds:add', url => {
 		if (!state.open) {
 			state.open = true
@@ -28,16 +29,30 @@ module.exports = (state, emitter) => {
 			try {
 				url = parse(url)
 
-				if (url.protocol !== 'dat:') {
-					return
+				if (url.protocol !== 'dat:') return
+
+				if (state.feeds.indexOf(url.href) !== -1) return
+
+				var data = {
+					url: url.href
 				}
 
-				if (state.feeds.indexOf(url.href) !== -1) {
-					return
+				switch (state.newUrl.val.toString()) {
+					case "50":
+						data.timeout = moment().add(1, 'M').valueOf()
+						break;
+					case "25":
+						data.timeout = moment().add(1, 'w').valueOf()
+						text = "1 week"
+						break;
+					case "0":
+						data.timeout = moment().add(1, 'd').valueOf()
+						text = "1 day"
+						break;
 				}
 
 				window.fetch('/feeds', {
-					body: JSON.stringify({url: url.href}),
+					body: JSON.stringify(data),
 					headers: {
 						'content-type': 'application/json'
 					},

@@ -102,14 +102,9 @@ function view(state, emit) {
 			`
 
 		function keydown(e) {
-			console.log('keys')
 			if (e.keyCode === 13 || e.which === 13) {
 				submit(e)
 			}
-		}
-
-		function focus(e) {
-			console.log('focus')
 		}
 	}
 
@@ -125,9 +120,8 @@ function view(state, emit) {
 			return html`<p>add a dat url to start peering it →</p>`
 		} else {
 			return html`<p>you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)</p>`
-
 		}
-		
+
 		function plural(word, value) {
 			return word + (value === 1 ? '' : 's')
 		}
