@@ -61,6 +61,8 @@ module.exports = (state, emitter) => {
 					.then(res => res.json())
 					.then(data => {
 						if (data.success) {
+							state.newUrl = {val: 75, text: "forever"} // reset
+
 							state.feeds.push({url: url.href})
 							emitter.emit('render')
 							stats(url.href)
