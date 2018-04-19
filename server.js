@@ -30,3 +30,24 @@ app.use(r.routes())
 
 console.log('Server listening on port ' + port + '...')
 app.listen(port)
+
+// timeout for seeded sites
+check_timeouts()
+setInterval(check_timeouts, 2 * 3600000)
+
+function check_timeouts() {
+	var now = new Date().getTime()
+
+	var feeds = store.get('feeds')
+
+	for (var i = 0; i < feeds.length; i++) {
+		if (feeds[i].timeout && feeds[i].timeout < now) {
+			archiver.remove(feeds[i].url)
+
+			feeds.splice(store.indexOf(feeds[i].url), 1)
+		}
+	}
+
+	store.set('feeds', feeds)
+	store.write()
+}

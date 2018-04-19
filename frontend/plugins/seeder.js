@@ -1,15 +1,23 @@
 const parse = require('parse-dat-url')
+const moment = require('moment')
 
 module.exports = (state, emitter) => {
 	state.feeds = []
 	state.stats = {}
-	state.open = false
+	// state.open = true
+	state.newUrl = {val: 75, text: "forever"}
 	fetch()
 
 	emitter.on('feeds:fetch', fetch)
 
 	emitter.on('feeds:cancel', () => {
 		state.open = false
+		emitter.emit('render')
+	})
+
+	emitter.on('feeds:adjustTime',  () => {
+		// state.open = true
+		// state.text = text
 		emitter.emit('render')
 	})
 
@@ -21,16 +29,30 @@ module.exports = (state, emitter) => {
 			try {
 				url = parse(url)
 
-				if (url.protocol !== 'dat:') {
-					return
+				if (url.protocol !== 'dat:') return
+
+				if (state.feeds.indexOf(url.href) !== -1) return
+
+				var data = {
+					url: url.href
 				}
 
-				if (state.feeds.indexOf(url.href) !== -1) {
-					return
+				switch (state.newUrl.val.toString()) {
+					case "50":
+						data.timeout = moment().add(1, 'M').valueOf()
+						break;
+					case "25":
+						data.timeout = moment().add(1, 'w').valueOf()
+						text = "1 week"
+						break;
+					case "0":
+						data.timeout = moment().add(1, 'd').valueOf()
+						text = "1 day"
+						break;
 				}
 
 				window.fetch('/feeds', {
-					body: JSON.stringify({url: url.href}),
+					body: JSON.stringify(data),
 					headers: {
 						'content-type': 'application/json'
 					},
@@ -39,7 +61,9 @@ module.exports = (state, emitter) => {
 					.then(res => res.json())
 					.then(data => {
 						if (data.success) {
-							state.feeds.push(url.href)
+							state.newUrl = {val: 75, text: "forever"} // reset
+
+							state.feeds.push({url: url.href})
 							emitter.emit('render')
 							stats(url.href)
 						}
@@ -53,7 +77,7 @@ module.exports = (state, emitter) => {
 
 	emitter.on('feeds:remove', url => {
 		window.fetch('/remove-feed', {
-			body: JSON.stringify({url}),
+			body: JSON.stringify({url: url}),
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -62,7 +86,7 @@ module.exports = (state, emitter) => {
 			.then(res => res.json())
 			.then(data => {
 				if (data.success) {
-					state.feeds.splice(state.feeds.indexOf(url), 1)
+					state.feeds.splice(index(url), 1)
 					delete state.stats[url]
 					emitter.emit('render')
 				}
@@ -70,6 +94,23 @@ module.exports = (state, emitter) => {
 	})
 
 	emitter.on('feeds:stats', stats)
+
+	emitter.on('feeds:pause', url => {
+		window.fetch('/pause', {
+			body: JSON.stringify({url: url}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(res => res.json())
+			.then(data => {
+				if (data.success) {
+					state.feeds[index(url)].paused = !state.feeds[index(url)].paused
+					emitter.emit('render')
+				}
+			})
+	})
 
 	function fetch() {
 		window.fetch('/feeds')
@@ -79,7 +120,7 @@ module.exports = (state, emitter) => {
 				emitter.emit('render')
 
 				state.feeds.forEach(f => {
-					stats(f)
+					stats(f.url)
 				})
 			})
 	}
@@ -98,5 +139,11 @@ module.exports = (state, emitter) => {
 					stats(url)
 				}, 10000)
 			})
+	}
+
+	function index(url) {
+		for (var i = 0; i < state.feeds.length; i++) {
+			if (state.feeds[i].url == url) return i
+		}
 	}
 }
