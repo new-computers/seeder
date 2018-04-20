@@ -122,7 +122,6 @@ function view(state, emit) {
 
 	function description(state) {
 		var s = sum(state.stats)
-		console.log(state.stats)
 		if (state.feeds.length === 0) {
 			return html`<p>add a dat url to start peering it →</p>`
 		}
@@ -163,6 +162,7 @@ function view(state, emit) {
 					<a class='url' href="${fd.url}" target="_blank">${fd.url}</a>
 				</div>
 				<div class="info">
+					<div class="size">${state.stats[fd.url] ? state.stats[fd.url].size : ''}</div>
 					${!error ? html`<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>` : ''}
 					<a class='remove' title="remove this dat" href="#" onclick="${click}"></a>
 					<div>${(!fd.paused && state.stats[fd.url] && !error) ? state.stats[fd.url].peers : default_peers}</div>

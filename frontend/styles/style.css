@@ -80,6 +80,12 @@ p{
   align-items: center;
 }
 
+.size {
+	margin-right: 1rem;
+	font-size: 16px;
+	opacity: 0;
+}
+
 .toggle{
   width: 12px;
   transform: rotate(90deg);
@@ -148,6 +154,10 @@ p{
 
 .pin:hover .remove{
   opacity: 1;
+}
+
+.pin:hover .size {
+	opacity: 1;
 }
 
 .pin:last-child{
