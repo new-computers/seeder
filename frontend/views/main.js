@@ -10,7 +10,6 @@ css('../styles/reset.css')
 css('../styles/style.css')
 module.exports = view
 
-
 function view(state, emit) {
 	var known_url = window.location.origin.replace('http://', '') // Location.hostname doesn't include the port
 	return html`
@@ -55,28 +54,28 @@ function view(state, emit) {
 	function adjustSeeding(state, emit) {
 		return html`
 			<div class="slider">
-				<p>seed this site ${state.newUrl.val == 75 ? '' : 'for'} ${state.newUrl.text}</p>
+				<p>seed this site ${state.newUrl.val === 75 ? '' : 'for'} ${state.newUrl.text}</p>
 				<input type="range" oninput="${writeVal}" onchange="${writeVal}" min="0" max="75" step="25" value=${state.newUrl.val}>
 			</div>
 		`
 
-		function writeVal(e){
+		function writeVal(e) {
 			val = e.target.value
 			switch (val.toString()) {
-				case "75":
-					text = "forever"
-					break;
-				case "50":
-					text = "1 month"
-					break;
-				case "25":
-					text = "1 week"
-					break;
-				case "0":
-					text = "1 day"
-					break;
+				case '75':
+					text = 'forever'
+					break
+				case '50':
+					text = '1 month'
+					break
+				case '25':
+					text = '1 week'
+					break
+				case '0':
+					text = '1 day'
+					break
 				default:
-					text = "whyyy";
+					text = 'whyyy'
 			}
 
 			state.newUrl.val = val
@@ -88,7 +87,7 @@ function view(state, emit) {
 	function urlInput(state, emit) {
 		if (state.open) {
 			if (state.opened) {
-				setTimeout(function() { // had to trick this
+				setTimeout(() => { // Had to trick this
 					url.element.focus()
 				}, 100)
 				state.opened = false
@@ -122,12 +121,11 @@ function view(state, emit) {
 	}
 
 	function description(state) {
-				var s = sum(state.stats)
+		var s = sum(state.stats)
 		if (state.feeds.length === 0) {
 			return html`<p>add a dat url to start peering it →</p>`
-		} else {
-			return html`<p>you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)</p>`
 		}
+		return html`<p>you are seeding ${state.feeds.length} ${plural('site', state.feeds.length)} to ${s} ${plural('peer', s)} :)</p>`
 
 		function plural(word, value) {
 			return word + (value === 1 ? '' : 's')
@@ -147,16 +145,26 @@ function view(state, emit) {
 	}
 
 	function feed(fd) {
+		var dotcolor = fd.paused ? 'yellow' : 'green'
+		var default_peers = '0'
+		var error = false
+
+		if (state.stats[fd.url] && state.stats[fd.url].peers === -1) {
+			dotcolor = 'red'
+			default_peers = ''
+			error = true
+		}
+
 		return html`
 			<div class="pin border">
 				<div class="seed">
-					<div class=${fd.paused ? 'dot yellow' : 'dot green'}></div>
+					<div class="dot ${dotcolor}"></div>
 					<a class='url' href="${fd.url}" target="_blank">${fd.url}</a>
 				</div>
 				<div class="info">
-					<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>
+					${!error ? html`<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>` : ''}
 					<a class='remove' title="remove this dat" href="#" onclick="${click}"></a>
-					<div>${(!fd.paused && state.stats[fd.url]) ? state.stats[fd.url].peers : '0'}</div>
+					<div>${(!fd.paused && state.stats[fd.url] && !error) ? state.stats[fd.url].peers : default_peers}</div>
 				</div>
 			</div>
 		`

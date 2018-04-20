@@ -31,7 +31,7 @@ app.use(r.routes())
 console.log('Server listening on port ' + port + '...')
 app.listen(port)
 
-// timeout for seeded sites
+// Timeout for seeded sites
 check_timeouts()
 setInterval(check_timeouts, 2 * 3600000)
 

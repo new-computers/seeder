@@ -3,8 +3,8 @@ module.exports = function (el, e, handler) {
 	try {
 		el.removeEventListener(e, handler)
 		el.addEventListener(e, handler)
-	} catch (e) {
-		console.error(e)
+	} catch (err) {
+		console.error(err)
 	}
 
 	return el

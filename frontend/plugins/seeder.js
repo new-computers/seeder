@@ -4,8 +4,8 @@ const moment = require('moment')
 module.exports = (state, emitter) => {
 	state.feeds = []
 	state.stats = {}
-	// state.open = true
-	state.newUrl = {val: 75, text: "forever"}
+	// State.open = true
+	state.newUrl = {val: 75, text: 'forever'}
 	fetch()
 
 	emitter.on('feeds:fetch', fetch)
@@ -15,8 +15,8 @@ module.exports = (state, emitter) => {
 		emitter.emit('render')
 	})
 
-	emitter.on('feeds:adjustTime',  () => {
-		// state.open = true
+	emitter.on('feeds:adjustTime', () => {
+		// State.open = true
 		// state.text = text
 		emitter.emit('render')
 	})
@@ -24,32 +24,36 @@ module.exports = (state, emitter) => {
 	emitter.on('feeds:add', url => {
 		if (!state.open) {
 			state.open = true
-			state.opened = true // true only at the first render after open
+			state.opened = true // True only at the first render after open
 			emitter.emit('render')
 		} else {
 			try {
 				url = parse(url)
 
-				if (url.protocol !== 'dat:') return
+				if (url.protocol !== 'dat:') {
+					return
+				}
 
-				if (state.feeds.indexOf(url.href) !== -1) return
+				if (state.feeds.indexOf(url.href) !== -1) {
+					return
+				}
 
 				var data = {
 					url: url.href
 				}
 
 				switch (state.newUrl.val.toString()) {
-					case "50":
+					case '50':
 						data.timeout = moment().add(1, 'M').valueOf()
-						break;
-					case "25":
+						break
+					case '25':
 						data.timeout = moment().add(1, 'w').valueOf()
-						text = "1 week"
-						break;
-					case "0":
+						text = '1 week'
+						break
+					case '0':
 						data.timeout = moment().add(1, 'd').valueOf()
-						text = "1 day"
-						break;
+						text = '1 day'
+						break
 				}
 
 				window.fetch('/feeds', {
@@ -62,7 +66,7 @@ module.exports = (state, emitter) => {
 					.then(res => res.json())
 					.then(data => {
 						if (data.success) {
-							state.newUrl = {val: 75, text: "forever"} // reset
+							state.newUrl = {val: 75, text: 'forever'} // Reset
 
 							state.feeds.push({url: url.href})
 							emitter.emit('render')
@@ -70,15 +74,15 @@ module.exports = (state, emitter) => {
 						}
 					})
 				state.open = false
-			} catch (e) {
-				console.error(e)
+			} catch (err) {
+				console.error(err)
 			}
 		}
 	})
 
 	emitter.on('feeds:remove', url => {
 		window.fetch('/remove-feed', {
-			body: JSON.stringify({url: url}),
+			body: JSON.stringify({url}),
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -98,7 +102,7 @@ module.exports = (state, emitter) => {
 
 	emitter.on('feeds:pause', url => {
 		window.fetch('/pause', {
-			body: JSON.stringify({url: url}),
+			body: JSON.stringify({url}),
 			headers: {
 				'content-type': 'application/json'
 			},
@@ -144,7 +148,9 @@ module.exports = (state, emitter) => {
 
 	function index(url) {
 		for (var i = 0; i < state.feeds.length; i++) {
-			if (state.feeds[i].url == url) return i
+			if (state.feeds[i].url === url) {
+				return i
+			}
 		}
 	}
 }
