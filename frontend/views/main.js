@@ -122,6 +122,7 @@ function view(state, emit) {
 
 	function description(state) {
 		var s = sum(state.stats)
+		console.log(state.stats)
 		if (state.feeds.length === 0) {
 			return html`<p>add a dat url to start peering it →</p>`
 		}
@@ -135,7 +136,7 @@ function view(state, emit) {
 			var sum = 0
 			for (var el in obj) {
 				if (obj.hasOwnProperty(el)) {
-					if (obj[el].peers) {
+					if (obj[el].peers && obj[el].peers !== -1) {
 						sum += parseFloat(obj[el].peers)
 					}
 				}
