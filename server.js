@@ -28,7 +28,7 @@ app.use(bodyParser())
 app.use(r.routes())
 	.use(r.allowedMethods())
 
-console.log('Server listening on port ' + port + '...')
+console.log('The frontend is served on port ' + port + '.\n')
 app.listen(port)
 
 // Timeout for seeded sites
