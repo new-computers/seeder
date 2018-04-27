@@ -5,7 +5,7 @@ s_has() {
 }
 
 # install node
-if s_has "node" ; then
+if s_has "node" && s_has "npm" ; then
 	echo "node installed"
 else
 	echo "0. node is not installed. Installing..."
