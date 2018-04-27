@@ -5,3 +5,4 @@ bundles/bundle.js
 data.json
 archives
 package-lock.json
+.DS_Store
