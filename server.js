@@ -1,5 +1,8 @@
 const koa = require('koa')
+const http = require('http')
 const serve = require('koa-static')
+const vhost = require('koa-vhost')
+const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 
 const Store = require('./lib/store')
@@ -10,10 +13,12 @@ const app = new koa()
 
 var port = 80
 var root = '/home/pi/seeder'
+var dev = false
 
 if (process.argv.length > 2 && process.argv[2] === 'dev') {
 	port = 8080
 	root = '.'
+	dev = true
 }
 
 const store = new Store(root + '/data.json')
@@ -28,8 +33,16 @@ app.use(bodyParser())
 app.use(r.routes())
 	.use(r.allowedMethods())
 
-console.log('The frontend is served on port ' + port + '.\n')
-app.listen(port)
+var server
+if (!dev) {
+	// lets encrypt
+} else {
+	server = http.createServer(app)
+	server.listen(port)
+}
+server.once('listening', function() {
+	console.log('The frontend is served on port ' + port + '.\n')
+})
 
 // Timeout for seeded sites
 check_timeouts()

@@ -1,5 +1,5 @@
 const parse = require('parse-dat-url')
-const moment = require('moment')
+const dayjs = require('dayjs')
 
 module.exports = (state, emitter) => {
 	state.feeds = []
@@ -44,14 +44,14 @@ module.exports = (state, emitter) => {
 
 				switch (state.newUrl.val.toString()) {
 					case '50':
-						data.timeout = moment().add(1, 'M').valueOf()
+						data.timeout = dayjs().add(1, 'M').valueOf()
 						break
 					case '25':
-						data.timeout = moment().add(1, 'w').valueOf()
+						data.timeout = dayjs().add(1, 'w').valueOf()
 						text = '1 week'
 						break
 					case '0':
-						data.timeout = moment().add(1, 'd').valueOf()
+						data.timeout = dayjs().add(1, 'd').valueOf()
 						text = '1 day'
 						break
 				}
