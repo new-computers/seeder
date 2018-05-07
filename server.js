@@ -1,10 +1,10 @@
 const koa = require('koa')
 const http = require('http')
 const serve = require('koa-static')
-//const vhost = require('koa-vhost')
 const Switch = require('koa-switch-vhost');
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
+const fs = require('fs')
 
 const Store = require('./lib/store')
 const router = require('./lib/router')
@@ -59,15 +59,30 @@ server.once('listening', function() {
 
 function create_site_app(site) {
 	var sapp = new koa()
+	var dirname = site.url.replace('dat://', '').replace(/\//g, '')
+
+	// probably not the best way to do this
+	try {
+		var manifest = fs.readFileSync(root + '/archives/' + dirname + '/dat.json', 'utf8')
+		manifest = JSON.parse(manifest)
+	} catch (err) {
+		manifest = {}
+	}
 
 	var router = new Router()
 	router.get('/.well-known/dat', function(ctx) {
 		ctx.body = site.url
 	})
 
-	var dirname = site.url.replace('dat://', '').replace(/\//g, '')
+	if (manifest.fallback_page) {
+		var content = fs.readFileSync(root + '/archives/' + dirname + manifest.fallback_page, 'utf8')
+		router.get('*', function(ctx) {
+			ctx.body = content
+		})
+	}
 
-	sapp.use(serve(root + '/archives/' + dirname, {extensions: ['html']}))
+	var webroot = dirname + (manifest.web_root ? manifest.web_root : '')
+	sapp.use(serve(root + '/archives/' + webroot, {extensions: ['html']}))
 	sapp.use(router.routes()).use(router.allowedMethods())
 
 	return sapp

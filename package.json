@@ -42,7 +42,6 @@
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
     "koa-switch-vhost": "^0.1.0",
-    "koa-vhost": "^0.5.0",
     "parse-dat-url": "^3.0.1",
     "sheetify": "^7.3.1"
   },
