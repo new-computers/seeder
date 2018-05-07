@@ -18,6 +18,20 @@ Navigate to the Pi's address (in my case it's ```seeder.local```) and manage you
 
 After you remove a source it'll still seed it until you restart the Pi or the service.
 
+## `data.json` structure
+```javascript
+{
+	feeds: [
+		{
+			url: string,
+			paused: boolean <optional>,
+			timeout: number <optional>,
+			http: string <optional>
+		}
+	]
+}
+```
+
 ## development
 
 Clone the repo, then:
