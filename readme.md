@@ -40,3 +40,10 @@ npm install
 npm run build
 npm start dev
 ```
+
+## todo
+- [ ] HTTP mirroring test with real domain and stuff
+- [ ] frontend to add http url
+- [ ] start mirroring when added from frontend
+- [ ] let's encrypt (greenlock-express alternative for koa)
+- [ ] read dat.json of archive and use it (fallback_page, etc.)
