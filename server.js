@@ -47,7 +47,7 @@ app.use(vhost.switch())
 app.use(serve(root + '/bundles'))
 
 var server
-if (!dev) {
+if (!dev && false) {
 	// TODO: lets encrypt
 } else {
 	server = http.createServer(app.callback())
