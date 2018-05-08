@@ -11,14 +11,30 @@ $ curl -o- https://raw.githubusercontent.com/new-computers/seeder/master/install
 ```
 It'll install everything you need.
 
+Or alternatively clone this repo to `/home/pi/seeder` and run the server with `sudo node server.js` on port 80.
+
 ## usage
-The installation script should add a service to ```systemd```: a web server running on port 80 that's the frontend for the seeder and that also handles and seeds the archives.
+The installation script adds a service to `systemd` called `dat`: a web server running on port 80 that's the frontend for the seeder and seeds the archives (via [`dat-node`](https://github.com/datproject/dat-node)). 
 
-Navigate to the Pi's address (in my case it's ```seeder.local```) and manage your sources.
+Navigate to the Pi's address (in my case it's ```http://seeder.local```) and manage your sources.
 
-After you remove a source it'll still seed it until you restart the Pi or the service.
+### HTTP mirroring
+1. Add the archive to the seeding list.
+2. Add the url. (**currently**: add it to `data.json` manually and restart the service with `sudo systemctl restart dat`)
+3. Probably you have to setup **port-forwarding** on your router.
+4. Add an **A record** to the domain that points to your IP address and the forwarded port.
+5. You're done!
 
-## `data.json` structure
+## development
+
+Clone the repo, then:
+```
+npm install
+npm run build
+npm start dev
+```
+
+### `data.json` structure
 ```javascript
 {
 	feeds: [
@@ -32,18 +48,9 @@ After you remove a source it'll still seed it until you restart the Pi or the se
 }
 ```
 
-## development
-
-Clone the repo, then:
-```
-npm install
-npm run build
-npm start dev
-```
-
 ## todo
 - [ ] HTTP mirroring test with real domain and stuff
 - [ ] frontend to add http url
 - [ ] start mirroring when added from frontend
 - [ ] let's encrypt (greenlock-express alternative for koa)
-- [ ] read dat.json of archive and use it (fallback_page, etc.)
+- [x] read dat.json of archive and use it (fallback_page, etc.)
