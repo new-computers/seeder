@@ -7,7 +7,7 @@ It's just a seeder, without HTTP mirroring or anything special, yet.
 
 ## installation
 ```
-$ curl -o- https://git.io/vxpck | bash
+$ curl -o- https://raw.githubusercontent.com/new-computers/seeder/master/install.sh | bash
 ```
 It'll install everything you need.
 
