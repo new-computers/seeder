@@ -46,13 +46,25 @@ app.use(r.routes()).use(r.allowedMethods())
 app.use(vhost.switch())
 app.use(serve(root + '/bundles'))
 
+var letsencrypt = store.get('letsencrypt')
+
 var server
-if (!dev && false) {
-	// TODO: lets encrypt
+
+if (letsencrypt && false) { // not working, yet
+	server = require('greenlock-koa').create({
+  		version: 'draft-11',
+		server: dev ? 'https://acme-staging-v02.api.letsencrypt.org/directory' : 'https://acme-v02.api.letsencrypt.org/directory',
+		email: letsencrypt.email,
+		agreesTos: letsencrypt.agreesTos,
+		approveDomains: store.approveDomains,
+		app: app.callback(),
+		debug: dev
+ 	}).listen(port)
 } else {
 	server = http.createServer(app.callback())
 	server.listen(port)
 }
+
 server.once('listening', function() {
 	console.log('The frontend is served on port ' + port + '.\n')
 })

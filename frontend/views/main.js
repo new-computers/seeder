@@ -12,6 +12,9 @@ module.exports = view
 
 function view(state, emit) {
 	var known_url = window.location.origin.replace('http://', '') // Location.hostname doesn't include the port
+
+	if (state.letsencrypt && !state.letsencrypt.email || state.letsencrypt == undefined) return config()
+
 	return html`
 		<body>
 			<header>
@@ -206,5 +209,31 @@ function view(state, emit) {
 			e.preventDefault()
 			emit('feeds:pause', fd.url)
 		}
+	}
+
+	function config() {
+		var email = new Input('your@email.com')
+		return html`
+		   <body>
+			   <div>Hi, peer! Do you want to use Let's Encrypt?</div>
+			   <div>
+			   		${email.render()}
+					<span>By clicking Yes you also agree to Let's Encrypt's Terms of Service.</span>
+					<a href="#" onclick="${yes}">Yes.</a>
+			   </div>
+			   <a href="#" onclick="${no}">No.</a>
+		   </body>
+	   `
+
+	   function no(e) {
+		   e.preventDefault()
+		   emit('letsencrypt', false)
+	   }
+
+	   function yes(e) {
+		   e.preventDefault()
+		   var v = email.element.value.trim()
+		   if (v != '') emit('letsencrypt', {email: email.element.value, agreesTos: true})
+	   }
 	}
 }

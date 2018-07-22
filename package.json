@@ -37,6 +37,8 @@
     "dayjs": "^1.5.15",
     "du": "^0.1.0",
     "fs-extra": "^5.0.0",
+    "greenlock-express": "^2.3.2",
+    "greenlock-koa": "^2.1.3",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",

@@ -4,6 +4,7 @@ const dayjs = require('dayjs')
 module.exports = (state, emitter) => {
 	state.feeds = []
 	state.stats = {}
+	state.letsencrypt = false
 	// State.open = true
 	state.newUrl = {val: 75, text: 'forever'}
 	fetch()
@@ -128,7 +129,6 @@ module.exports = (state, emitter) => {
 			.then(res => res.json())
 			.then(data => {
 				state.feeds[index(url)].http = http
-				console.log(res)
 			})
 	})
 
@@ -136,11 +136,28 @@ module.exports = (state, emitter) => {
 		emitter.emit('render')
 	})
 
+	emitter.on('letsencrypt', data => {
+		window.fetch('/letsencrypt', {
+			body: JSON.stringify({res: data}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(res => res.json())
+			.then(d => {
+				state.letsencrypt = data
+				emitter.emit('render')
+			})
+	})
+
 	function fetch() {
 		window.fetch('/feeds')
 			.then(res => res.json())
 			.then(data => {
 				state.feeds = data.feeds
+				state.letsencrypt = data.letsencrypt
+
 				emitter.emit('render')
 
 				state.feeds.forEach(f => {
