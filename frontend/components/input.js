@@ -7,13 +7,14 @@ module.exports = class Input extends Nanocomponent {
 		this.placeholder = placeholder
 	}
 
-	createElement() {
+	createElement(val) {
+		val = val || ''
 		return html`
-			<input type="text" placeholder="${this.placeholder}" class="urlInput">
+			<input type="text" placeholder="${this.placeholder}" class="urlInput" value="${val}">
 		`
 	}
 
-	update() {
+	update(val) {
 		return false
 	}
 }

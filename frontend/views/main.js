@@ -155,13 +155,17 @@ function view(state, emit) {
 			error = true
 		}
 
+		const httpurl = new Input('sub.domain.com')
+
 		return html`
 			<div class="pin border">
 				<div class="seed">
 					<div class="dot ${dotcolor}"></div>
 					<a class='url' href="${fd.url}" target="_blank">${fd.url}</a>
 				</div>
+				${settings()}
 				<div class="info">
+					<a href="#" title="${fd.open ? 'save settings' : 'open settings'}" class="settings" onclick="${click_settings}">${fd.open ? 'save' : 'settings'}</a>
 					<div class="size">${state.stats[fd.url] ? state.stats[fd.url].size : ''}</div>
 					${!error ? html`<a class='toggle' title="pause or resume seeding" href="#" onclick="${pause}">${!fd.paused ? '=' : '+'}</a>` : ''}
 					<a class='remove' title="remove this dat" href="#" onclick="${click}"></a>
@@ -169,6 +173,29 @@ function view(state, emit) {
 				</div>
 			</div>
 		`
+
+		function settings() {
+			if (fd.open) return html`
+				<div class="settingswrap">
+					${httpurl.render(fd.http)}
+				</div>
+			`
+		}
+
+		function click_settings(e) {
+			e.preventDefault()
+			if (fd.open) {
+				fd.open = false
+				var http = httpurl.element.value.trim()
+
+				if (http != fd.http) {
+					emit('feeds:http', fd.url, httpurl.element.value)
+				}
+			} else {
+				fd.open = true
+			}
+			emit('re')
+		}
 
 		function click(e) {
 			e.preventDefault()

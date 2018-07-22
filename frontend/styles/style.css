@@ -86,25 +86,27 @@ p{
 	opacity: 0;
 }
 
+.toggle,
+.remove,
+.settings {
+	margin-right: 1rem;
+    opacity: 0;
+	color: rgba(0,0,0,.4);
+}
+
 .toggle{
   width: 12px;
   transform: rotate(90deg);
-  margin-right: 1rem;
-  color: rgba(0,0,0,.4);
-  /* margin-top: 2px; */
-  opacity: 0;
 }
 
-.toggle:hover{
+.toggle:hover,
+.settings:hover {
   text-decoration: none;
   color: rgba(0,0,0,1);
 }
 
 .remove{
-  margin-right: 1rem;
-  color: rgba(0,0,0,.4);
   margin-top: -2px;
-  opacity: 0;
   color: salmon;
 }
 
@@ -120,14 +122,11 @@ p{
   color: rgba(0,0,0,1);
 }
 
-.urlInput {
-  margin-bottom: 2rem;
-}
-
 .slider {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 2rem;
 }
 
 .slider p{
@@ -146,22 +145,21 @@ p{
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
+  flex-wrap: wrap;
 }
 
-.pin:hover .toggle{
+.pin:hover .toggle,
+.pin:hover .remove,
+.pin:hover .size,
+.pin:hover .settings {
   opacity: 1;
-}
-
-.pin:hover .remove{
-  opacity: 1;
-}
-
-.pin:hover .size {
-	opacity: 1;
 }
 
 .pin:last-child{
   margin-bottom: 0px;
+}
+
+.settingswrap {
 }
 
 .url{

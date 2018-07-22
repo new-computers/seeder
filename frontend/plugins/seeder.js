@@ -117,6 +117,25 @@ module.exports = (state, emitter) => {
 			})
 	})
 
+	emitter.on('feeds:http', (url, http) => {
+		window.fetch('/mirror', {
+			body: JSON.stringify({url: url, http: http}),
+			headers: {
+				'content-type': 'application/json'
+			},
+			method: 'POST'
+		})
+			.then(res => res.json())
+			.then(data => {
+				state.feeds[index(url)].http = http
+				console.log(res)
+			})
+	})
+
+	emitter.on('re', () => {
+		emitter.emit('render')
+	})
+
 	function fetch() {
 		window.fetch('/feeds')
 			.then(res => res.json())
